@@ -1,4 +1,6 @@
 /*********************************************************************
+	Supplies Program
+	
 	Write a class named Supplies that keeps track of parts needed for a factory
 	production line. There are three parts to keep track of, and Supplies should have a field
 	for how many of each are in stock.  The three parts are thingamajigs, watchamacallits, and 

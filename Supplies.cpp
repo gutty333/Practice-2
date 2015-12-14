@@ -32,7 +32,9 @@ void Supplies::printPartsOrder()
 	int frameParts = 50 - frame;
 	int zero = 0;
 
-	cout << "The factory needs to order " << (things < 100 ? thingsParts : 0) << " thingamajigs, " << (watch < 70 ?watchParts : 0) << " watchamacallits and " << (frame< 50 ? frameParts : 0) << " framistats" << endl;
+	cout << "The factory currently has " << things << " thingamajigs, " << watch << " watchamacallits and " << frame << " framistats in stock" << endl;
+	cout << "The factory will need to order " << (things < 100 ? thingsParts : 0) << " thingamajigs, " << (watch < 70 ?watchParts : 0) << " watchamacallits and " << (frame< 50 ? frameParts : 0) << " framistats" << endl;
+	
 }
 void Supplies::produce1(int amount)
 {

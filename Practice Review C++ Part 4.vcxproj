@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="practice.cpp" />
+    <ClCompile Include="Week 7 Program 19.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5B2CE4E8-8472-4B33-A42A-2D018EFECF18}</ProjectGuid>

@@ -25,5 +25,7 @@ int main()
 		cout << x + 1 << " Array 2 is: " << array2[x] << endl;
 	}
 
+	cout << array1 << endl;
+
 	return 0;
 }

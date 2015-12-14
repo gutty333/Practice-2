@@ -11,6 +11,7 @@
 	in advance.
 	• The project  can be implemented either  as a multi-file  program, or all the functions can be cut 
 	and pasted into a single file.
+
 	Here are the specifications:
 	• The theater’s auditorium has 15 rows, with 30 seats in each row. To represent  the seats, the  
 	TicketManager class should  have a two-dimensional array  of SeatStructures. Each of these 
@@ -74,6 +75,7 @@
 	do this is in the TicketManager destructor.
 *********************************************************************/
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <cctype>
 #include <fstream>
@@ -81,6 +83,7 @@ using namespace std;
 
 ifstream infile("SeatPrices.dat");
 ifstream infile2("SeatAvailability.dat");
+ofstream outfile("SeatResult.dat");
 
 struct SeastStructures
 {
@@ -92,49 +95,243 @@ class TicketManager
 {
 	private:
 		SeastStructures theater[15][30];
+		int seatTotal;
+		double priceTotal;
 
 
 
 	public:
-		TicketManager()
-		{
-			for (int row = 0; row < 15; row++)
-			{
-				for (int col = 0; col < 30; col++)
-				{
-					infile2 >> theater[row][col].valid;
-				}
-			}
-		}
+		TicketManager();
+		~TicketManager();
+		void viewPrice();
+		void viewSeats();
+		void orderSeats(int, int, int, char&);
+		void updateSeats(int, int, int);
+		void report();
 };
 
 
+// Default Constructor
+TicketManager::TicketManager()
+{
+	seatTotal = priceTotal = 0;
+
+	double price;
+
+	for (int row = 0; row < 15; row++)
+	{
+
+		infile >> price;
+
+		for (int col = 0; col < 30; col++)
+		{
+			theater[row][col].cost = price;
+			infile2 >> theater[row][col].valid;
+		}
+	}
+}
+// Destructor
+TicketManager::~TicketManager()
+{
+	for (int row = 0; row < 15; row++)
+	{
+		outfile << "Row " << left << setw(8) << row + 1;
+
+		for (int col = 0; col < 30; col++)
+		{
+			outfile << theater[row][col].valid;
+		}
+
+		outfile << endl;
+	}
+
+	outfile << "Seats Sold: " << seatTotal << endl;
+	outfile << "Seats Available: " << (15 * 30) - seatTotal << endl;
+	outfile << "Money Collected: $" << priceTotal << endl;
+
+	outfile.close();
+}
 
 
 
+// View Price member function
+void TicketManager::viewPrice()
+{
+	for (int row = 0; row < 15; row++)
+	{
+		for (int col = 0; col < 30; col++)
+		{
+			cout << theater[row][col].cost<< " ";
+		}
+
+		cout << endl;
+	}
+}
+
+
+// View Seats member function
+void TicketManager::viewSeats()
+{
+
+	for (int row = 0; row < 15; row++)
+	{
+		cout << "Row " << left << setw(8) << row + 1;
+
+		for (int col = 0; col < 30; col++)
+		{
+			cout << theater[row][col].valid;
+		}
+
+		cout << endl;
+	}
+}
+
+
+// Order Seats Member Function
+void TicketManager::orderSeats(int number, int rowNum, int startNum, char& purchase)
+{
+	bool order = true; 
+
+
+	for (int x = 0; x < number; x++)
+	{
+		if (theater[rowNum][startNum+x].valid == '*')
+		{
+			cout << "Seats are not available" << endl;
+			order = false;
+			purchase = 'N';
+			break;
+		}
+	}
+
+	if (order)
+	{
+		cout << "The number of requested seats: " << number << endl;
+		cout << "The price for each seat in this row is: $" << theater[rowNum][0].cost << endl;
+		cout << "The total cost is: $" << theater[rowNum][0].cost * number << endl;
+		cout << endl << "Do you want to purchase these seats? (Y/N) ";
+		cin >> purchase;
+	}
+}
+
+
+
+// Update Seats Member Function
+void TicketManager::updateSeats(int number, int row, int colum)
+{
+	for (int x=0; x < number; x++)
+	{
+		theater[row][colum+x].valid = '*';
+	}
+}
+
+
+
+
+
+// Report Member Function
+void TicketManager::report()
+{
+	for (int row = 0; row < 15; row++)
+	{
+		for (int col = 0; col < 30; col++)
+		{
+			if (theater[row][col].valid == '*')
+			{
+				seatTotal++;
+				priceTotal += theater[row][col].cost;
+			}
+		}
+	}
+
+	cout << "Seats Sold: " << seatTotal << endl;
+	cout << "Seats Available: " << (15 * 30) - seatTotal << endl;
+	cout << "Money Collected: $" << priceTotal << endl;
+}
+
+
+
+
+
+// Client/Test Program
 int main()
 {
 	
 
-	cout << endl << "Seats" << endl;
-	for (int y = 1; y <= 3; y++)
+
+	string line;
+	int choice, row, seatAmount, startingSeat;
+	char purchase;
+	TicketManager theater;
+
+	cout << fixed << setprecision(2);
+
+	do
 	{
-		for (int x = 1; x <= 10; x++)
+		cout << "Box Office Option Menu" << endl;
+		cout << "1. Display Seating Chart" << endl;
+		cout << "2. Request Tickets" << endl;
+		cout << "3. Print Sales Report" << endl;
+		cout << "4. Exit Program" << endl;
+		cin >> choice;
+
+		while (choice < 1 || choice > 4)
 		{
-			if (x == 10)
-			{
-				cout << x-10;
-			}
-			else
-			{
-				cout << x;
-			}
+			cout << "Please enter a valid input (1-4): ";
+			cin >> choice;
 		}
-	}
+
+		switch (choice)
+		{
+			case 1:
+				cout << endl << "Displaying the seating chart of the theater" << endl;
+				theater.viewSeats();
+				break;
+
+
+			case 2:
+				cout << endl << "How many seats do you want: ";
+				cin >> seatAmount;
+
+				cout << "In what row do you want to sit? ";
+				cin >> row;
+
+				cout << "Set your starting/column seat number: ";
+				cin >> startingSeat;
+
+
+				theater.orderSeats(seatAmount, row, startingSeat, purchase);
+				
+
+				if (toupper(purchase) == 'Y')
+				{
+					cout << "The seats have been purchased" << endl;
+					theater.updateSeats(seatAmount, row, startingSeat);
+				}
+				else
+				{
+					cout << "The seats have not been purchased" << endl;
+				}
+
+				break;
+
+
+			case 3:
+				cout << endl << "Here is the report " << endl;
+
+				theater.report();
+				break;
+
+
+			case 4:
+				cout << endl << "Thank you for the time, come again soon!" << endl;
+				break;
+		}
+
+		cout << endl;
+	} while (choice != 4);
 	
-
-
-
+	
 	infile.close();
 	infile2.close();
 

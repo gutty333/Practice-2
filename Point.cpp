@@ -29,8 +29,8 @@ double Point::getY()
 }
 double Point::distanceTo(const Point& point1)
 {
-	double x = xCoord - point1.xCoord;
-	double y = yCoord - point1.yCoord;
+	double x = point1.xCoord - xCoord;
+	double y = point1.yCoord - yCoord;
 
 	double distance = sqrt(pow(x, 2) + pow(y, 2));
 
