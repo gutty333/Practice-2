@@ -39,7 +39,7 @@ void linearSearch(int dataArray[], int size, int valueArray[])
 
 	if (winning)
 	{
-		cout << "You have " << counter << " winning number for this week" << endl;
+		cout << "You have " << counter << " winning numbers for this week" << endl;
 	}
 	else
 	{
@@ -47,6 +47,54 @@ void linearSearch(int dataArray[], int size, int valueArray[])
 	}
 }
 
+
+
+
+void binarySearch(int array[], int size, int value[])
+{
+	bool found;
+	int index, count = 0;
+	int mid, last, first;
+
+	for (int x = 0; x < size; x++)
+	{
+		last = size - 1;
+		first = 0;
+		found = false;
+
+		while (!found && first <= last)
+		{
+			mid = (last + first) / 2;
+
+			if (array[mid] == value[x])
+			{
+				found = true;
+				count++;
+			}
+			else if (array[mid] > value[x])
+			{
+				last = mid - 1;
+			}
+			else
+			{
+				first = mid + 1;
+			}
+		}
+		
+	}
+
+
+
+	if (count)
+	{
+		cout << "You have " << count << " winning numbers for this week" << endl;
+	}
+	else
+	{
+		cout << "You do not have a winning number for this week" << endl;
+	}
+
+}
 
 
 int main()
@@ -64,8 +112,13 @@ int main()
 		cin >> player[x];
 	}
 
-
+	// Linear Search
 	linearSearch(lucky, 10, player);
+	
+	cout << endl << endl;
+	
+	// Binary Search
+	binarySearch(lucky, 10, player);
 
 
 	return 0;

@@ -8,23 +8,22 @@
 	then calculate  the average, median,  and mode of the values entered.
 *********************************************************************/
 #include <iostream>
+#include <iomanip>
+#include <vector>
 using namespace std;
 
-void average(int* total, int size)
+// Display Function
+void display(int scores[], int size)
 {
-	double sum = 0;
 	for (int x = 0; x < size; x++)
 	{
-		sum += *total;
-		total++;
+		cout << scores[x] << " ";
 	}
-
-	cout << "The average is " << sum / size << endl;
+	cout << endl;
 }
 
-
-
-void medium(int* scores, int size)
+// Sort Function
+void sort(int scores[], int size)
 {
 	int high;
 	bool swap;
@@ -44,13 +43,29 @@ void medium(int* scores, int size)
 			}
 		}
 	} while (swap);
+}
 
+// Average Function
+void average(int* total, int size)
+{
+	double sum = 0;
+	for (int x = 0; x < size; x++)
+	{
+		sum += *total;
+		total++;
+	}
 
+	cout << "The average is " << sum / size << endl;
+}
+
+// Medium Function
+void medium(int* scores, int size)
+{
 	if (size % 2 == 0)
 	{
 		int index = size / 2;
 
-		double medium = (scores[index] + scores[index + 1]) / 2.0;
+		double medium = (scores[index] + scores[index - 1]) / 2.0;
 
 		cout << "The medium of the set of numbers is " << medium << endl;
 	}
@@ -58,18 +73,86 @@ void medium(int* scores, int size)
 	{
 		int index2 = size / 2;
 
-		index2 += 1;
-
 		cout << "The medium of the set of numbers is " << scores[index2] << endl;
 	}
 }
 
+// Mode Function
+void mode(int scores[], int size)
+{
+	int count;
+	int most=-1;
+	int value, index = 1, temp;
+	vector <int> temp2;
+	bool single = false;
+
+
+	for (int x = 0; x < size - 1; x++)
+	{
+		value = scores[x];
+		count = 0;
+
+		for (int y = x+1; y < size; y++)
+		{
+			if (scores[y] == value)
+			{
+				count++;
+			}
+		}
+
+
+		if (count == 0)
+		{
+			continue;
+		}
+		else if (count > most)
+		{
+			most = count;
+			temp = x;
+			temp2.push_back(scores[x]);
+			single = true;
+		}
+		else if (count == most) 
+		{
+			// In this section was trying to see if I can get it with dynamically allocating an array
+			// Ended up going with vector
+
+			temp2.push_back(scores[x]);
+
+			single = false;
+			index++;
+		}
+	}
+
+
+
+	if (most == -1)
+	{
+		cout << "There is no mode in the set of numbers" << endl;
+	}
+	else if (single)
+	{
+		cout << "The mode of the set of numbers is " << scores[temp] << endl;
+	}
+	else
+	{
+		cout << "The modes in the set of numbers are: ";
+
+		for (int z = 0; z < index; z++)
+		{
+			cout << temp2[z] << " ";
+		}
+		cout << endl;
+	}
+}
 
 int main()
 {
 	int* students;
 	int number;
 
+
+	cout << fixed << setprecision(2);
 	cout << "How many students were surveyed: ";
 	cin >> number;
 
@@ -81,8 +164,16 @@ int main()
 		cin >> students[x];
 	}
 
+	cout << endl << "Original" << endl;
+	display(students, number);
+	
+	
+	cout << endl << "Sorted" << endl;
+	sort(students, number);
+	display(students, number);
 	average(students, number);
 	medium(students, number);
+	mode(students, number);
 
 	delete[] students;
 	students = 0;

@@ -59,6 +59,7 @@ int main()
 
 	bool swap;
 	int low;
+	int dateTemp;
 	do
 	{
 		swap = false;
@@ -68,8 +69,11 @@ int main()
 			if (report[x].snow > report[x + 1].snow)
 			{
 				low = report[x].snow;
+				dateTemp = report[x].date;
+				report[x].date = report[x + 1].date;
 				report[x].snow = report[x + 1].snow;
 				report[x + 1].snow = low;
+				report[x + 1].date = dateTemp;
 				swap = true;
 			}
 		}
@@ -77,7 +81,7 @@ int main()
 
 
 
-	cout << "Snow Report " << month << " " << start << " - " << end << endl;
+	cout << endl << "Snow Report " << month << " " << start-7 << " - " << end-1 << endl;
 	for (int x = 0; x < 7; x++)
 	{
 		cout << report[x].date << "  " << report[x].snow << endl;
@@ -86,4 +90,3 @@ int main()
 
 	return 0;
 }
-
