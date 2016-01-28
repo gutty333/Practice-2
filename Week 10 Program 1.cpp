@@ -6,4 +6,12 @@
 	You will write the three implementation files. You may add one-line "inline function" implementations 
 	to the .hpp files if you want, but implementation of the other functions should go in the corresponding .cpp files. 
 	Please put your function comments in the .cpp files (they would clutter up the .hpp files).
+
+	See class specification and implementation files
+	Book.h
+	Book.cpp
+	Patron.h
+	Patron.cpp
+	Library.h
+	Library.cpp
 *********************************************************************/
