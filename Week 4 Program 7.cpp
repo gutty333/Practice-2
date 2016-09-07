@@ -60,8 +60,6 @@ int main()
 	cout << "Write another name: ";
 	getline(cin, name2);
 
-
-	
 	if (samestring(name1, name2))
 	{
 		cout << "The names are the same" << endl;

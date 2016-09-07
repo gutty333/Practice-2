@@ -106,11 +106,6 @@ int main()
 
 	Product salsaObject;
 
-	salsaObject.
-
-	
-
-
 
 
 	return 0;

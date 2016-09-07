@@ -80,8 +80,10 @@ bool Appointment::fullWeek()
 // Open Slot Function
 void Appointment::openSlots()
 {
-	// Need to compare list to the dates that have not been taken 
+	cout << "There are still " << 20 - list.size() << " open" << endl;
 }
+
+
 // Print Report
 void Appointment::printReport()
 {

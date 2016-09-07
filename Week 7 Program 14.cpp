@@ -121,7 +121,7 @@ int main()
 			cin >> yourTest[x];
 
 
-			while (yourTest[x] > "D")
+			while (yourTest[x] > "D"  || yourTest[x] < "A")
 			{
 				cout << "Please enter from A-D: ";
 				cin >> yourTest[x];

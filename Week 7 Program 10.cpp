@@ -39,9 +39,12 @@ int main()
 
 	for (int x = 0; x < 5; x++)
 	{
-		if (winningDigits[x] == player[x])
+		for (int y = 0; y < 5; y++)
 		{
-			count += 1;
+			if (winningDigits[x] == player[y])
+			{
+				count += 1;
+			}
 		}
 	}
 

@@ -26,6 +26,10 @@ class Tips
 		{
 			taxRate = x;
 		}
+		double getTax()
+		{
+			return taxRate;
+		}
 		double computeTip(double total, double tipRate)
 		{
 			double newRate = (taxRate * 100) + 100;
@@ -42,7 +46,9 @@ int main()
 {
 	double total, tip;
 
-	Tips order1(.5);
+	Tips order1(.5), order2;
+
+	// cout << order2.getTax() << endl;
 	
 	for (int x = 1; x <= 5; x++)
 	{

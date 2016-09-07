@@ -33,9 +33,26 @@ class Date
 		}
 		Date(int m, int d, int y)
 		{
-			day = d;
-			month = m;
-			year = y;
+			if (m < 1 || m > 12)
+			{
+				month = 1;
+			}
+			else
+				month = m;
+
+			if (d < 1 || d > 31)
+			{
+				day = 1;
+			}
+			else
+				day = d;
+
+			if (y < 0)
+			{
+				year = 2001;
+			}
+			else
+				year = y;
 		}
 		void print1()
 		{
@@ -179,5 +196,4 @@ int main()
 
 
 	return 0;
-
 }

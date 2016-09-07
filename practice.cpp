@@ -70,7 +70,6 @@ int main()
 		cout << endl;
 	} while (toupper(choice) == 'Y' && !schedule.fullWeek());
 
-
 	cout << endl << line << endl;
 	schedule.printReport();
 	

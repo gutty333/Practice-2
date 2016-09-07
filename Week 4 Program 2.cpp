@@ -24,7 +24,6 @@ double calculateRetail(double x, double y)
 	return (x * y) + x;
 }
 
-
 int main()
 {
 	double price, percentage;

@@ -14,6 +14,12 @@ int cube(int x)
 }
 
 
+int square(int x)
+{
+	return x * 2;
+}
+
+
 void timesTen(int x)
 {
 	int result;
@@ -35,12 +41,12 @@ int getNumber(int& x)
 	if (x < 1 || x > 100)
 	{
 		cout << "Bad Input" << endl;
-		return false;
+		return 0;
 	}
 	else
 	{	
 		cout << "Good Job" << endl;
-		return true;
+		return x;
 	}
 }
 
@@ -74,6 +80,7 @@ int main()
 {
 	int number = 45;
 	cout << half(number) << endl;
+	cout << square(number) << endl;
 
 
 

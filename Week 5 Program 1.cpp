@@ -37,7 +37,7 @@ class Inventory
 			{
 				return -1;
 			}
-
-			return quantity -= units;
+			else
+				return quantity - units;
 		}
 };

@@ -52,7 +52,7 @@ class Game
 		void simulateEnemy();
 		void placeTraps();
 		void placeEnemy();
-		bool endGame();
+		int endGame();
 
 };
 
@@ -176,19 +176,20 @@ void Game::placeTraps()
 	// As a start we can have 1-20 traps
 	// If we further develop this program, depending on the difficulty the number of traps increase or decrease
 	int trapTotal = rand() % (rowSize+colSize) + 1;
-	int row = rand() % rowSize;
-	int col = rand()& colSize;
+	int row, col;
 
 	for (int x = 0; x < trapTotal; x++)
 	{
 		// Random spots
-		int row = rand() % rowSize;
-		int col = rand()& colSize;
+		row = rand()% rowSize;
+		col = rand()% colSize;
 
-		while (row == rowSize - 1 && col == colSize-1) // Assure that they are not on the destination spot
+		// Assure that they are not on the destination spot
+		// Also that they are not in the player starting position
+		while ((row == rowSize - 1 && col == colSize - 1) || (row == 0 && col == 0))
 		{
-			int row = rand() % rowSize;
-			int col = rand()& colSize;
+			row = rand()% rowSize;
+			col = rand()% colSize;
 		}
 		board[row][col] = 'T'; 
 	}
@@ -197,17 +198,19 @@ void Game::placeTraps()
 void Game::placeEnemy()
 {
 	int enemyTotal = rand() % (rowSize + colSize) + 1;
+	int row, col;
 
 	for (int x = 0; x < enemyTotal; x++)
 	{
 		// Random spots
-		int row = rand() % rowSize;
-		int col = rand()& colSize;
+		row = rand()% rowSize;
+		col = rand()% colSize;
 
-		while (row == rowSize - 1 && col == colSize - 1) // Assure that they are not on the destination spot
+		// Assure that they are not on the destination spot
+		while ((row == rowSize - 1 && col == colSize - 1) || (row == 0 && col == 0))
 		{
-			int row = rand() % rowSize;
-			int col = rand()& colSize;
+			row = rand()% rowSize;
+			col = rand()% colSize;
 		}
 		board[row][col] = 'E';
 	}
@@ -215,73 +218,63 @@ void Game::placeEnemy()
 // Simulate enemy movement
 void Game::simulateEnemy()
 {
+	int moveDirection;
+
 	for (int row = 0; row < rowSize; row++)
 	{
 		for (int col = 0; col < colSize; col++)
 		{
 			// Number from 1-4, similar to the player this will represent the direction the enemy will move
-			int moveDirection = rand() % 4 + 1;
+			moveDirection = rand()% 4 + 1;
 
 			if (board[row][col] == 'E')
 			{
 				if (moveDirection == 1) // Move up from the current spot
 				{
 					board[row][col] = '-';
-					if (!endGame())
+					if (!endGame() && !boundCheck(row - 1, col))
 					{
-						if (!boundCheck(row-1, col))
-						{
-							board[row-1][col] = 'E';
-						}
-						else
-						{
-							board[row][col] = 'E';
-						}
+						board[row-1][col] = 'E';
+					}
+					else
+					{
+						board[row][col] = 'E';
 					}
 				}
 				else if (moveDirection == 2) // Move right from the current spot
 				{
 					board[row][col] = '-';
-					if (!endGame())
+					if (!endGame() && !boundCheck(row, col + 1))
 					{
-						if (!boundCheck(row, col+1))
-						{
-							board[row][col+1] = 'E';
-						}
-						else
-						{
-							board[row][col] = 'E';
-						}
+						board[row][col+1] = 'E';
+					}
+					else
+					{
+						board[row][col] = 'E';
 					}
 				}
 				else if (moveDirection == 3) // Move down from the current spot
 				{
 					board[row][col] = '-';
-					if (!endGame())
+					if (!endGame() && !boundCheck(row + 1, col))
 					{
-						if (!boundCheck(row+1, col))
-						{
-							board[row+1][col] = 'E';
-						}
-						else
-						{
-							board[row][col] = 'E';
-						}
+						board[row+1][col] = 'E';
+					}
+					else
+					{
+						board[row][col] = 'E';
 					}
 				}
 				else if (moveDirection == 4) // Move left from the current spot
 				{
 					board[row][col] = '-';
-					if (!endGame())
+					if (!endGame() && !boundCheck(row, col - 1))
 					{
-						if (!boundCheck(row, col-1))
-						{
-							board[row][col-1] = 'E';
-						}
-						else
-						{
-							board[row][col] = 'E';
-						}
+						board[row][col-1] = 'E';
+					}
+					else
+					{
+						board[row][col] = 'E';
 					}
 				}
 			}
@@ -292,7 +285,7 @@ void Game::simulateEnemy()
 // End Game function
 // If the player reaches the X, game ends
 // If the player falls on a trap, game ends
-bool Game::endGame()
+int Game::endGame()
 {
 	// Check if the player is on a trap or enemy
 	for (int row = 0; row < rowSize; row++)
@@ -303,8 +296,7 @@ bool Game::endGame()
 			{
 				if (playerRow == row && playerColumn == col)
 				{
-					cout << "Game Over" << endl;
-					return true;
+					return 1;
 				}
 			}
 		}
@@ -313,12 +305,11 @@ bool Game::endGame()
 	// Check if the player reached the destination
 	if (playerRow == rowSize-1 && playerColumn == colSize-1)
 	{
-		cout << "Congrats you made it to the destination" << endl;
-		return true;
+		return 2;
 	}
 	else
 	{
-		return false;
+		return 0;
 	}
 }
 
@@ -332,7 +323,7 @@ int main()
 	// This will allow the player to view the map certain amount of times
 	// In other words they can check where the traps/enemy will be
 	// This number can change if the programmed is develop based on difficulty level
-	int mapCount = 3;
+	// int mapCount = 3;
 
 	Game test;
 
@@ -356,7 +347,8 @@ int main()
 
 		test.movement(choice); // Player Moves
 		test.simulateEnemy(); // Enemies Move
-		if (!test.endGame())
+		test.display();
+		/*if (!test.endGame())
 		{
 			if (mapCount)
 			{
@@ -368,12 +360,19 @@ int main()
 					mapCount--;
 				}
 			}
-		}
-		
+		}*/
 		cout << endl;
 	} while (!test.endGame());
 
-	test.display();
+	if (test.endGame() == 1)
+	{
+		cout << "Game over, you have lost" << endl;
+		cout << "You either landed on a trap or enemy spot" << endl;
+	}
+	else if (test.endGame() == 2)
+	{
+		cout << "Congratulations, you have won" << endl;
+	}
 
 	return 0;
 }

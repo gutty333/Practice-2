@@ -47,9 +47,9 @@ class Inventory
 		}
 		Inventory(int x, int y, double z)
 		{
-			number = x;
-			quantity = y;
-			cost = z;
+			setNumber(x);
+			setQuantity(y);
+			setCost(z);
 			setTotalCost(y, z);
 		}
 		void setNumber(int x)

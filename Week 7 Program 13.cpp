@@ -67,10 +67,6 @@ string CharConverter::properWord(string name)
 		{
 			name[x+1] = toupper(name[x+1]);
 		}
-		else
-		{
-			name[x] = name[x];
-		}
 	}
 
 	return name;
